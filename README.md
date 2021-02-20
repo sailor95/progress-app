@@ -16,6 +16,6 @@ The Progress App. An app that helps you progress.
 
 ### Good to have
 
-- Yealy panel (top level panel) or yearly review page
+- Yearly panel (top level panel) or yearly review page
 
 ## Phase 1.0
