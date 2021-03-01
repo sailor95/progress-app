@@ -2,6 +2,11 @@
 
 The Progress App. An app that helps you progress.
 
+## Spirits
+
+- Simplicity
+- Intuitive
+
 ## Phase 0.1
 
 ### Core
