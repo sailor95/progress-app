@@ -57,3 +57,5 @@ The Progress App. An app that helps you progress.
 - TBD: Different kinds of statistic chart from shared `Progress bar`
 
 ## Phase 1.0
+
+### Full Steps Tutorial
