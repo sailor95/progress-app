@@ -15,7 +15,8 @@ The Progress App. An app that helps you progress.
   - Add record by hotkey
   - Add record by click on add, and add unique record
 
-### Progress setup
+### Goal setup
+- Click on `Setup Goal` to setup goal based on the `Quick Bar` item types
 
 ### Progress overview
 
