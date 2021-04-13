@@ -31,29 +31,29 @@ The Progress App. An app that helps you progress.
 
 ### Misc
 
-- [] Design Data structure of progress record
+- [ ] Design Data structure of progress record
 
 ### Top Nav
 
-- [] Setup Goal button
-  - [] Goal setup interface (TBD: Design)
+- [ ] Setup Goal button
+  - [ ] Goal setup interface (TBD: Design)
 
 ### Quick Bar
 
-- [] Hotkey button CRUD (6 buttons max)
-- [] Hotkey button keyboard binding
-- [] Custom button color & icon (emoji)
+- [ ] Hotkey button CRUD (6 buttons max)
+- [ ] Hotkey button keyboard binding
+- [ ] Custom button color & icon (emoji)
 
 ### Progress Bar
 
-- [] Weekly accumulation overview
-- [] Goal setup
-  - [] Progress indicator
+- [ ] Weekly accumulation overview
+- [ ] Goal setup
+  - [ ] Progress indicator
 
 ### Mission Board - Daily
 
-- [] Progress record CRUD
-  - [] Able to update record description
+- [ ] Progress record CRUD
+  - [ ] Able to update record description
 
 ## Phase 1.0 (MVP)
 
@@ -63,18 +63,18 @@ The Progress App. An app that helps you progress.
 
 ### Top Nav
 
-- [] Progress History
-  - [] History interface (TBD: Design)
-- [] Settings
-  - [] Settings interface
+- [ ] Progress History
+  - [ ] History interface (TBD: Design)
+- [ ] Settings
+  - [ ] Settings interface
 
 ### Quick Bar
 
-- [] Hotkey hint notification
+- [ ] Hotkey hint notification
 
 ### Progress Bar
 
-- [] Share Progess to social media
+- [ ] Share Progess to social media
 
 ### Mission Board - New design
 
