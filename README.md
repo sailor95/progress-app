@@ -1,4 +1,4 @@
-# progress-app
+# 💪 progress-app 💪
 
 The Progress App is an app that helps you make progress.
 
