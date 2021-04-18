@@ -1,0 +1,10 @@
+@import '../../../utils/styles/mixins.module.scss';
+
+.container {
+  @include flex-all-center;
+  position: relative;
+  height: 25vh;
+  min-height: 50px;
+  min-height: 200px;
+  background-color: aquamarine;
+}
