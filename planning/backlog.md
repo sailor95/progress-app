@@ -13,3 +13,4 @@ Good to have items.
 - Two modes:
   - Click and add (fast mode)
   - Click, popup description edit dialog, then click enter again to add (detail mode)
+- Undo/Redo buttons

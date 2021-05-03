@@ -11,17 +11,3 @@
 .quickBtns {
   @include flex-all-center;
 }
-
-.btnContainer {
-  @include flex-all-center;
-  flex-direction: column;
-}
-
-.btnHint {
-  @include flex-all-center;
-  height: 50px;
-  width: 50px;
-  background-color: black;
-  color: white;
-  margin-bottom: 10px;
-}
