@@ -14,10 +14,12 @@ const BtnDialog: FC<BtnDialogProps> = ({ show, onClose, onMaskClick }) => {
   }
 
   return (
-    <div className={styles.outer} onClick={onMaskClick}>
-      <div className={styles.inner} onClick={onClose}>
-        Hi
-      </div>
+    <div className={styles.container} onClick={onClose}>
+      <div>Name</div>
+      <div>Hotkey</div>
+      <div>Color</div>
+
+      <div className={styles.buttons}>Buttons</div>
     </div>
   );
 };
