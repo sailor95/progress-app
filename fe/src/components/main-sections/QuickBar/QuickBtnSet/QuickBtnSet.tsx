@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import QuickBtn from './QuickBtn';
 import BtnDialog from './BtnDialog';
 
 import styles from './styles.module.scss';
 
-const QuickBtnSet = () => {
-  // TODO: Color
-  // TODO: Hotkey
+interface QuickBtnSetProp {
+  index: number;
+}
+
+const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   const [showDialog, setShowDialog] = useState(false);
 
   const handleShowDialog = () => {
     setShowDialog(true);
+  };
+
+  const handleSaveButtonConfig = (data: any) => {
+    console.log(data);
+    console.log(`Save data of index: ${index}`);
+    setShowDialog(false);
   };
 
   return (
@@ -23,7 +31,7 @@ const QuickBtnSet = () => {
       <BtnDialog
         show={showDialog}
         onClose={() => setShowDialog(false)}
-        onMaskClick={() => setShowDialog(false)}
+        onSave={handleSaveButtonConfig}
       />
     </div>
   );

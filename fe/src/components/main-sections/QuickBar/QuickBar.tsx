@@ -9,7 +9,7 @@ const QuickBar = () => {
     <div className={styles.container}>
       <div className={styles.quickBtns}>
         {[...Array(5)].map((val, idx) => (
-          <QuickBtnSet key={idx} />
+          <QuickBtnSet key={idx} index={idx} />
         ))}
       </div>
     </div>
