@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import AddIcon from '@material-ui/icons/Add';
+import grey from '@material-ui/core/colors/grey';
 
 import styles from './styles.module.scss';
 
@@ -11,9 +12,9 @@ interface QuickBtnProps {
 const QuickBtn: FC<QuickBtnProps> = ({ showDialog }) => {
   return (
     <>
-      <div className={styles.container} onClick={showDialog}>
-        <FontAwesomeIcon icon={faPlus} size="2x" inverse />
-      </div>
+      <ButtonBase className={styles.container} onClick={showDialog}>
+        <AddIcon style={{ color: grey[50], fontSize: '4rem' }} />
+      </ButtonBase>
     </>
   );
 };
