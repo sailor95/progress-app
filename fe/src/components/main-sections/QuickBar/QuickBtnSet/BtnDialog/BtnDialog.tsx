@@ -1,8 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+import {
+  Dialog,
+  DialogContent,
+  InputLabel,
+  TextField,
+} from '@material-ui/core';
+import { TwitterPicker, ColorResult } from 'react-color';
 
 import styles from './styles.module.scss';
 
@@ -13,10 +17,16 @@ interface BtnDialogProps {
 }
 
 const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
+  const [color, setColor] = useState('#fff');
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data: any) => {
     onSave(data);
+  };
+
+  const handleToggleColorPicker = () => {
+    setShowColorPicker(prev => !prev);
   };
 
   return (
@@ -26,33 +36,56 @@ const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
       aria-labelledby="quick-btn-dialog"
       disableBackdropClick
       maxWidth="md"
-      classes={{ scrollPaper: styles.scroll_paper }}
+      classes={{ scrollPaper: styles.scroll_paper, paper: styles.paper }}
     >
-      <DialogTitle classes={{ root: styles.dialog_title }}>
-        Setup Quick Button
-      </DialogTitle>
-      <DialogContent>
+      <DialogContent classes={{ root: styles.dialog_content_root }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.options}>
-            <div className={styles.option}>
-              <div className={styles.label}>Name</div>
-              <input
-                type="text"
-                placeholder="Input mission name..."
-                {...register('name')}
-              />
-            </div>
-            <div className={styles.option}>
-              <div className={styles.label}>Hotkey</div>
-              <input
-                type="text"
-                placeholder="Setup Hotkey..."
-                {...register('hotkey')}
-              />
-            </div>
-            <div className={styles.option}>
-              <div className={styles.label}>Color</div>
-              <input type="color" {...register('color')} />
+            {/* TODO: Make into my own common component */}
+            <InputLabel required classes={{ root: styles.input_label }}>
+              Name
+            </InputLabel>
+            <TextField
+              variant="outlined"
+              placeholder="Set name"
+              classes={{ root: styles.text_field }}
+              InputProps={{ classes: { input: styles.input } }}
+              {...register('name')}
+            />
+
+            {/* TODO: Make into my own common component */}
+            <InputLabel classes={{ root: styles.input_label }}>
+              Hotkey
+            </InputLabel>
+            <TextField
+              variant="outlined"
+              placeholder="Set hotkey"
+              classes={{ root: styles.text_field }}
+              InputProps={{ classes: { input: styles.input } }}
+              {...register('hotkey')}
+            />
+
+            {/* TODO: Make into my own common component */}
+            <InputLabel required classes={{ root: styles.input_label }}>
+              Color
+            </InputLabel>
+            <div className={styles.picker_container}>
+              <div
+                className={styles.picker_block_outer}
+                onClick={handleToggleColorPicker}
+              >
+                <div
+                  className={styles.picker_block_inner}
+                  style={{ backgroundColor: color }}
+                />
+              </div>
+              {showColorPicker && (
+                <TwitterPicker
+                  color={color}
+                  onChange={(color: ColorResult) => setColor(color.hex)}
+                  triangle="hide"
+                />
+              )}
             </div>
           </div>
 
@@ -63,7 +96,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
             <button className={styles.cancel} onClick={onClose} type="button">
               Cancel
             </button>
-            <div className={styles.delete}>Delete</div>
+            <div className={styles.clear}>Clear</div>
           </div>
         </form>
       </DialogContent>

@@ -4,11 +4,25 @@
   align-items: flex-start;
 }
 
-.dialog_title {
-  h2 {
-    font-size: 24px;
-    text-align: center;
-  }
+.paper {
+  width: 330px;
+}
+
+.dialog_content_root {
+  padding: 24px;
+}
+
+.input_label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.input {
+  font-size: 14px;
+}
+
+.text_field {
+  margin-bottom: 25px;
 }
 
 .options {
@@ -17,23 +31,31 @@
   width: 100%;
 }
 
-.option {
-  margin-bottom: 10px;
+.picker_container {
+  position: relative;
+  margin-bottom: 30px;
+}
 
-  .label {
-    margin-bottom: 5px;
-  }
+.picker_block_outer {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 2px;
+  background-color: '#fff';
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
 
-  input[type='text'] {
-    height: 25px;
-    width: 100%;
-  }
+.picker_block_inner {
+  width: 36px;
+  height: 14px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .buttons {
-  margin-top: auto;
   display: flex;
   justify-content: space-between;
+  margin-top: auto;
   width: 100%;
 
   .save {
@@ -46,7 +68,7 @@
     cursor: pointer;
   }
 
-  .delete {
+  .clear {
     background-color: #c4c4c4;
     cursor: pointer;
   }
