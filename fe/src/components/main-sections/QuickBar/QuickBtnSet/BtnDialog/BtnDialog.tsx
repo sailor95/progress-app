@@ -28,7 +28,9 @@ const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
       maxWidth="md"
       classes={{ scrollPaper: styles.scroll_paper }}
     >
-      <DialogTitle>Setup Quick Button</DialogTitle>
+      <DialogTitle classes={{ root: styles.dialog_title }}>
+        Setup Quick Button
+      </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.options}>
