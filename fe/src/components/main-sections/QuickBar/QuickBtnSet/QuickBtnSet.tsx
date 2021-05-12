@@ -16,6 +16,10 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     setShowDialog(true);
   };
 
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+  };
+
   const handleSaveButtonConfig = (data: any) => {
     console.log(data);
     console.log(`Save data of index: ${index}`);
@@ -29,8 +33,8 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
       <QuickBtn showDialog={handleShowDialog} />
 
       <BtnDialog
-        show={showDialog}
-        onClose={() => setShowDialog(false)}
+        open={showDialog}
+        onClose={handleCloseDialog}
         onSave={handleSaveButtonConfig}
       />
     </div>
