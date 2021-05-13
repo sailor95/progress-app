@@ -4,12 +4,21 @@
   align-items: flex-start;
 }
 
+.dialog_title {
+  padding: 8px 16px 0;
+  margin-bottom: -8px;
+}
+
+.icon_button {
+  float: right;
+}
+
 .paper {
   width: 330px;
 }
 
 .dialog_content_root {
-  padding: 24px;
+  padding: 0 24px;
 }
 
 .input_label {
@@ -50,26 +59,4 @@
   height: 14px;
   border-radius: 2px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: auto;
-  width: 100%;
-
-  .save {
-    background-color: white;
-    cursor: pointer;
-  }
-
-  .cancel {
-    background-color: gainsboro;
-    cursor: pointer;
-  }
-
-  .clear {
-    background-color: #c4c4c4;
-    cursor: pointer;
-  }
 }

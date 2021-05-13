@@ -1,11 +1,15 @@
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  Button,
   Dialog,
+  DialogTitle,
   DialogContent,
   InputLabel,
+  IconButton,
   TextField,
 } from '@material-ui/core';
+import { Delete as DeleteIcon, Close as CloseIcon } from '@material-ui/icons';
 import { TwitterPicker, ColorResult } from 'react-color';
 
 import styles from './styles.module.scss';
@@ -34,10 +38,14 @@ const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
       open={open}
       onClose={onClose}
       aria-labelledby="quick-btn-dialog"
-      disableBackdropClick
       maxWidth="md"
       classes={{ scrollPaper: styles.scroll_paper, paper: styles.paper }}
     >
+      <DialogTitle classes={{ root: styles.dialog_title }}>
+        <IconButton classes={{ root: styles.icon_button }} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent classes={{ root: styles.dialog_content_root }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.options}>
@@ -89,15 +97,18 @@ const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
             </div>
           </div>
 
-          <div className={styles.buttons}>
-            <button className={styles.save} type="submit">
-              Save
-            </button>
-            <button className={styles.cancel} onClick={onClose} type="button">
-              Cancel
-            </button>
-            <div className={styles.clear}>Clear</div>
-          </div>
+          {/* TODO: Determine whether need clear button */}
+          {false && (
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              startIcon={<DeleteIcon />}
+              type="button"
+            >
+              Clear Settings
+            </Button>
+          )}
         </form>
       </DialogContent>
     </Dialog>
