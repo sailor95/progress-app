@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   Button,
   Dialog,
@@ -12,18 +12,32 @@ import {
 import { Delete as DeleteIcon, Close as CloseIcon } from '@material-ui/icons';
 import { TwitterPicker, ColorResult } from 'react-color';
 
+import { QuickButtonData } from '../../../QuickBar/interfaces';
+
 import styles from './styles.module.scss';
 
 interface BtnDialogProps {
+  data: QuickButtonData;
   open: boolean;
-  onClose: () => void;
-  onSave: (data: any) => void;
+  onSave: (data: QuickButtonData) => void;
 }
 
-const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
-  const [color, setColor] = useState('#fff');
+type FormValues = {
+  name: string;
+  hotkey: string;
+  color: string;
+};
+
+const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { handleSubmit, control, watch, getValues } = useForm<FormValues>();
+  const watchColor = watch('color');
+
+  const handleClose = () => {
+    const data = getValues();
+    onSave(data);
+    setShowColorPicker(false);
+  };
 
   const onSubmit = (data: any) => {
     onSave(data);
@@ -36,65 +50,94 @@ const BtnDialog: FC<BtnDialogProps> = ({ open, onClose, onSave }) => {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby="quick-btn-dialog"
       maxWidth="md"
       classes={{ scrollPaper: styles.scroll_paper, paper: styles.paper }}
     >
       <DialogTitle classes={{ root: styles.dialog_title }}>
-        <IconButton classes={{ root: styles.icon_button }} onClick={onClose}>
+        <IconButton
+          classes={{ root: styles.icon_button }}
+          onClick={handleClose}
+        >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent classes={{ root: styles.dialog_content_root }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.options}>
-            {/* TODO: Make into my own common component */}
-            <InputLabel required classes={{ root: styles.input_label }}>
-              Name
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              placeholder="Set name"
-              classes={{ root: styles.text_field }}
-              InputProps={{ classes: { input: styles.input } }}
-              {...register('name')}
-            />
-
-            {/* TODO: Make into my own common component */}
-            <InputLabel classes={{ root: styles.input_label }}>
-              Hotkey
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              placeholder="Set hotkey"
-              classes={{ root: styles.text_field }}
-              InputProps={{ classes: { input: styles.input } }}
-              {...register('hotkey')}
-            />
-
-            {/* TODO: Make into my own common component */}
-            <InputLabel required classes={{ root: styles.input_label }}>
-              Color
-            </InputLabel>
-            <div className={styles.picker_container}>
-              <div
-                className={styles.picker_block_outer}
-                onClick={handleToggleColorPicker}
-              >
-                <div
-                  className={styles.picker_block_inner}
-                  style={{ backgroundColor: color }}
-                />
-              </div>
-              {showColorPicker && (
-                <TwitterPicker
-                  color={color}
-                  onChange={(color: ColorResult) => setColor(color.hex)}
-                  triangle="hide"
-                />
+            <Controller
+              name="name"
+              control={control}
+              defaultValue={data?.name || ''}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <InputLabel required classes={{ root: styles.input_label }}>
+                    Name
+                  </InputLabel>
+                  <TextField
+                    value={value}
+                    onChange={onChange}
+                    variant="outlined"
+                    placeholder="Set name"
+                    classes={{ root: styles.text_field }}
+                    InputProps={{ classes: { input: styles.input } }}
+                  />
+                </>
               )}
-            </div>
+            />
+
+            <Controller
+              name="hotkey"
+              control={control}
+              defaultValue={data?.hotkey || ''}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <InputLabel classes={{ root: styles.input_label }}>
+                    Hotkey
+                  </InputLabel>
+                  <TextField
+                    value={value}
+                    onChange={onChange}
+                    variant="outlined"
+                    placeholder="Set hotkey"
+                    classes={{ root: styles.text_field }}
+                    InputProps={{ classes: { input: styles.input } }}
+                  />
+                </>
+              )}
+            />
+
+            <Controller
+              name="color"
+              control={control}
+              defaultValue={data?.color || '#fff'}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <InputLabel classes={{ root: styles.input_label }}>
+                    Color
+                  </InputLabel>
+                  <div className={styles.picker_container}>
+                    <div
+                      className={styles.picker_block_outer}
+                      onClick={handleToggleColorPicker}
+                    >
+                      <div
+                        className={styles.picker_block_inner}
+                        style={{ backgroundColor: watchColor }}
+                      />
+                    </div>
+                    {showColorPicker && (
+                      <TwitterPicker
+                        color={value}
+                        onChange={(color: ColorResult) => onChange(color.hex)}
+                        triangle="hide"
+                      />
+                    )}
+                  </div>
+                </>
+              )}
+            />
           </div>
 
           {/* TODO: Determine whether need clear button */}
