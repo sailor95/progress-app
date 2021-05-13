@@ -1,6 +1,6 @@
 # 💪 progress-app 💪
 
-The Progress App is an app that helps you make progress.
+An app that helps you make progress.
 
 ## Core Spirits
 

@@ -17,7 +17,7 @@ import { QuickButtonData } from '../../../QuickBar/interfaces';
 import styles from './styles.module.scss';
 
 interface BtnDialogProps {
-  data: QuickButtonData;
+  data?: QuickButtonData;
   open: boolean;
   onSave: (data: QuickButtonData) => void;
 }
