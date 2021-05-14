@@ -14,3 +14,22 @@
     background-color: #c4c4c4;
   }
 }
+
+.data_btn {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .data_color {
+    position: absolute;
+    left: 10px;
+    content: '';
+    height: 75%;
+    width: 10px;
+    border-radius: 10px;
+  }
+
+  .data_name {
+    font-size: 20px;
+  }
+}

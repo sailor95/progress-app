@@ -30,7 +30,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     <div className={styles.container}>
       <div className={styles.btnHint}>Hint</div>
 
-      <QuickBtn showDialog={handleShowDialog} />
+      <QuickBtn data={buttonData} showDialog={handleShowDialog} />
 
       <BtnDialog
         data={buttonData}
