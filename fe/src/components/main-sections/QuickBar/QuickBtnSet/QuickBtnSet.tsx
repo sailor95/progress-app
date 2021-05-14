@@ -26,6 +26,10 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     setShowDialog(false);
   };
 
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.btnHint}>Hint</div>
@@ -36,6 +40,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
         data={buttonData}
         open={showDialog}
         onSave={handleSaveButtonConfig}
+        onClose={handleCloseDialog}
       />
     </div>
   );

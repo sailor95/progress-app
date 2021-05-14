@@ -9,7 +9,11 @@ import {
   IconButton,
   TextField,
 } from '@material-ui/core';
-import { Delete as DeleteIcon, Close as CloseIcon } from '@material-ui/icons';
+import {
+  Delete as DeleteIcon,
+  Close as CloseIcon,
+  Save as SaveIcon,
+} from '@material-ui/icons';
 import { TwitterPicker, ColorResult } from 'react-color';
 
 import { QuickButtonData } from '../../../QuickBar/interfaces';
@@ -20,6 +24,7 @@ interface BtnDialogProps {
   data?: QuickButtonData;
   open: boolean;
   onSave: (data: QuickButtonData) => void;
+  onClose: () => void;
 }
 
 type FormValues = {
@@ -28,14 +33,13 @@ type FormValues = {
   color: string;
 };
 
-const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave }) => {
+const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const { handleSubmit, control, watch, getValues } = useForm<FormValues>();
+  const { handleSubmit, control, watch } = useForm<FormValues>();
   const watchColor = watch('color');
 
   const handleClose = () => {
-    const data = getValues();
-    onSave(data);
+    onClose();
     setShowColorPicker(false);
   };
 
@@ -54,6 +58,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave }) => {
       aria-labelledby="quick-btn-dialog"
       maxWidth="md"
       classes={{ scrollPaper: styles.scroll_paper, paper: styles.paper }}
+      disableBackdropClick
     >
       <DialogTitle classes={{ root: styles.dialog_title }}>
         <IconButton
@@ -70,7 +75,11 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave }) => {
               name="name"
               control={control}
               defaultValue={data?.name || ''}
-              render={({ field: { onChange, value } }) => (
+              rules={{ required: 'Name is required.' }}
+              render={({
+                field: { onChange, value },
+                fieldState: { error, invalid },
+              }) => (
                 <>
                   <InputLabel required classes={{ root: styles.input_label }}>
                     Name
@@ -80,6 +89,8 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave }) => {
                     onChange={onChange}
                     variant="outlined"
                     placeholder="Set name"
+                    error={invalid}
+                    helperText={error?.message}
                     classes={{ root: styles.text_field }}
                     InputProps={{ classes: { input: styles.input } }}
                   />
@@ -139,6 +150,16 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave }) => {
               )}
             />
           </div>
+
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            startIcon={<SaveIcon />}
+            type="submit"
+          >
+            Save
+          </Button>
 
           {/* TODO: Determine whether need clear button */}
           {false && (
