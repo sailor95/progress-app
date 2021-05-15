@@ -39,11 +39,12 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
   const watchColor = watch('color')
 
   const handleClose = () => {
-    onClose()
     setShowColorPicker(false)
+    onClose()
   }
 
   const onSubmit = (data: any) => {
+    setShowColorPicker(false)
     onSave(data)
   }
 

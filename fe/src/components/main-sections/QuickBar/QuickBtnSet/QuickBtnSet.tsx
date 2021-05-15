@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 
+import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
 import { QuickButtonData } from '../interfaces'
@@ -31,7 +32,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.btnHint}>Hint</div>
+      <HotkeyHint name={buttonData?.hotkey} />
 
       <QuickBtn
         data={buttonData}
