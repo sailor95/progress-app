@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { FC, useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import {
   Button,
   Dialog,
@@ -8,48 +8,48 @@ import {
   InputLabel,
   IconButton,
   TextField,
-} from '@material-ui/core';
+} from '@material-ui/core'
 import {
   Delete as DeleteIcon,
   Close as CloseIcon,
   Save as SaveIcon,
-} from '@material-ui/icons';
-import { TwitterPicker, ColorResult } from 'react-color';
+} from '@material-ui/icons'
+import { TwitterPicker, ColorResult } from 'react-color'
 
-import { QuickButtonData } from '../../../QuickBar/interfaces';
+import { QuickButtonData } from '../../../QuickBar/interfaces'
 
-import styles from './styles.module.scss';
+import styles from './styles.module.scss'
 
 interface BtnDialogProps {
-  data?: QuickButtonData;
-  open: boolean;
-  onSave: (data: QuickButtonData) => void;
-  onClose: () => void;
+  data?: QuickButtonData
+  open: boolean
+  onSave: (data: QuickButtonData) => void
+  onClose: () => void
 }
 
 type FormValues = {
-  name: string;
-  hotkey: string;
-  color: string;
-};
+  name: string
+  hotkey: string
+  color: string
+}
 
 const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const { handleSubmit, control, watch } = useForm<FormValues>();
-  const watchColor = watch('color');
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  const { handleSubmit, control, watch } = useForm<FormValues>()
+  const watchColor = watch('color')
 
   const handleClose = () => {
-    onClose();
-    setShowColorPicker(false);
-  };
+    onClose()
+    setShowColorPicker(false)
+  }
 
   const onSubmit = (data: any) => {
-    onSave(data);
-  };
+    onSave(data)
+  }
 
   const handleToggleColorPicker = () => {
-    setShowColorPicker(prev => !prev);
-  };
+    setShowColorPicker((prev) => !prev)
+  }
 
   return (
     <Dialog
@@ -176,7 +176,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
         </form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default BtnDialog;
+export default BtnDialog

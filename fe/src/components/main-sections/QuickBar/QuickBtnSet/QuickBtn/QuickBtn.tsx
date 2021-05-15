@@ -1,25 +1,25 @@
-import React, { FC, useState, MouseEvent } from 'react';
-import { ButtonBase, IconButton } from '@material-ui/core';
 import { Add as AddIcon, Create as CreateIcon } from '@material-ui/icons';
-import grey from '@material-ui/core/colors/grey';
+import React, { FC, useState, MouseEvent } from 'react'
+import { ButtonBase, IconButton } from '@material-ui/core'
+import grey from '@material-ui/core/colors/grey'
 
-import { QuickButtonData } from '../../interfaces';
+import { QuickButtonData } from '../../interfaces'
 
-import styles from './styles.module.scss';
+import styles from './styles.module.scss'
 
 interface QuickBtnProps {
-  data?: QuickButtonData;
-  showDialog: () => void;
-  onEdit: () => void;
+  data?: QuickButtonData
+  showDialog: () => void
+  onEdit: () => void
 }
 
 const QuickBtn: FC<QuickBtnProps> = ({ data, showDialog, onEdit }) => {
-  const [showEdit, setShowEdit] = useState(false);
+  const [showEdit, setShowEdit] = useState(false)
 
   const handleAddProgress = () => {
     // TODO: Fire API to add progress
-    console.log('Add progress of', data?.name);
-  };
+    console.log('Add progress of', data?.name)
+  }
 
   const handleEdit = (e: MouseEvent) => {
     e.stopPropagation();
@@ -60,7 +60,7 @@ const QuickBtn: FC<QuickBtnProps> = ({ data, showDialog, onEdit }) => {
         )}
       </ButtonBase>
     </>
-  );
-};
+  )
+}
 
-export default QuickBtn;
+export default QuickBtn

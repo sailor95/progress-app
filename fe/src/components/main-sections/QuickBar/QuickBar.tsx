@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import QuickBtnSet from './QuickBtnSet';
+import QuickBtnSet from './QuickBtnSet'
 
-import styles from './styles.module.scss';
+import styles from './styles.module.scss'
 
 const QuickBar = () => {
   return (
@@ -13,7 +13,7 @@ const QuickBar = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default QuickBar;
+export default QuickBar
