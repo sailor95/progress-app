@@ -1,6 +1,6 @@
-import { Add as AddIcon, Create as CreateIcon } from '@material-ui/icons';
 import React, { FC, useState, MouseEvent } from 'react'
 import { ButtonBase, IconButton } from '@material-ui/core'
+import { Add as AddIcon, Create as EditIcon } from '@material-ui/icons'
 import grey from '@material-ui/core/colors/grey'
 
 import { QuickButtonData } from '../../interfaces'
@@ -22,9 +22,15 @@ const QuickBtn: FC<QuickBtnProps> = ({ data, showDialog, onEdit }) => {
   }
 
   const handleEdit = (e: MouseEvent) => {
-    e.stopPropagation();
-    onEdit();
-  };
+    e.stopPropagation()
+
+    onEdit()
+
+    if (document.activeElement instanceof HTMLElement) {
+      //  Remove the :focus CSS effect after showing the dialog
+      document.activeElement.blur()
+    }
+  }
 
   return (
     <>
@@ -33,7 +39,7 @@ const QuickBtn: FC<QuickBtnProps> = ({ data, showDialog, onEdit }) => {
         onClick={data ? handleAddProgress : showDialog}
         aria-label="create"
         disableRipple
-        onMouseEnter={() => setShowEdit(true)}
+        onMouseOver={() => setShowEdit(true)}
         onMouseLeave={() => setShowEdit(false)}
       >
         {data ? (
@@ -46,13 +52,13 @@ const QuickBtn: FC<QuickBtnProps> = ({ data, showDialog, onEdit }) => {
               <div className={styles.data_name}>{data.name}</div>
             </div>
             <IconButton
-              classes={{ root: styles.create_btn }}
+              classes={{ root: styles.edit_btn }}
               onClick={handleEdit}
               size="small"
               style={{ opacity: showEdit ? 1 : 0 }}
               aria-label="edit"
             >
-              <CreateIcon />
+              <EditIcon />
             </IconButton>
           </>
         ) : (
