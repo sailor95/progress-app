@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 
 import QuickBtn from './QuickBtn';
 import BtnDialog from './BtnDialog';
-
 import { QuickButtonData } from '../interfaces';
 
 import styles from './styles.module.scss';
@@ -34,7 +33,11 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     <div className={styles.container}>
       <div className={styles.btnHint}>Hint</div>
 
-      <QuickBtn data={buttonData} showDialog={handleShowDialog} />
+      <QuickBtn
+        data={buttonData}
+        showDialog={handleShowDialog}
+        onEdit={handleShowDialog}
+      />
 
       <BtnDialog
         data={buttonData}
