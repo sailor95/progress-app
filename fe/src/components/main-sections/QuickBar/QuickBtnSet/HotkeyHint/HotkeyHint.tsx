@@ -7,13 +7,15 @@ interface HotkeyHintProps {
 }
 
 const HotkeyHint: FC<HotkeyHintProps> = ({ name }) => {
-  console.log(name)
   return (
     <div className={styles.container}>
       {name && (
-        <button className="kbc-button kbc-button-lg" type="button">
+        <div
+          className="kbc-button kbc-button-lg"
+          style={{ fontSize: '1.5rem' }}
+        >
           {name}
-        </button>
+        </div>
       )}
     </div>
   )

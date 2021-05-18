@@ -59,7 +59,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
       aria-labelledby="quick-btn-dialog"
       maxWidth="md"
       classes={{ scrollPaper: styles.scroll_paper, paper: styles.paper }}
-      disableBackdropClick
+      disableBackdropClick // TODO: Rethink do we need backdrop click
     >
       <DialogTitle classes={{ root: styles.dialog_title }}>
         <IconButton
