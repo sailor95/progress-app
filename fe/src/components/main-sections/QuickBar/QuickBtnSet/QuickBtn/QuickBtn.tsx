@@ -11,14 +11,19 @@ interface QuickBtnProps {
   data?: QuickButtonData
   showDialog: () => void
   onEdit: () => void
+  onAddProgress: () => void
 }
 
-const QuickBtn: FC<QuickBtnProps> = ({ data, showDialog, onEdit }) => {
+const QuickBtn: FC<QuickBtnProps> = ({
+  data,
+  showDialog,
+  onEdit,
+  onAddProgress,
+}) => {
   const [showEdit, setShowEdit] = useState(false)
 
   const handleAddProgress = () => {
-    // TODO: Fire API to add progress
-    console.log('Add progress of', data?.name)
+    onAddProgress()
   }
 
   const handleEdit = (e: MouseEvent) => {

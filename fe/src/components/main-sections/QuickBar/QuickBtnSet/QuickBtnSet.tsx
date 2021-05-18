@@ -4,6 +4,8 @@ import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
 import { QuickButtonData } from '../interfaces'
+import HotKeysHoc from '../../../hoc/HotKeysHoc'
+import { myConsole } from '../../../../utils/dev'
 
 import styles from './styles.module.scss'
 
@@ -30,23 +32,36 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     setShowDialog(false)
   }
 
+  const onKeyDown = (keyName: string, e: KeyboardEvent, handle: any) => {
+    myConsole.dev('Key down', keyName)
+    handleAddProgress()
+  }
+
+  const handleAddProgress = () => {
+    // TODO: Fire api to add progress
+    myConsole.dev('Add progress of', index, buttonData?.name)
+  }
+
   return (
-    <div className={styles.container}>
-      <HotkeyHint name={buttonData?.hotkey} />
+    <HotKeysHoc keyName={buttonData?.hotkey} onKeyDown={onKeyDown}>
+      <div className={styles.container}>
+        <HotkeyHint name={buttonData?.hotkey} />
 
-      <QuickBtn
-        data={buttonData}
-        showDialog={handleShowDialog}
-        onEdit={handleShowDialog}
-      />
+        <QuickBtn
+          data={buttonData}
+          showDialog={handleShowDialog}
+          onEdit={handleShowDialog}
+          onAddProgress={handleAddProgress}
+        />
 
-      <BtnDialog
-        data={buttonData}
-        open={showDialog}
-        onSave={handleSaveButtonConfig}
-        onClose={handleCloseDialog}
-      />
-    </div>
+        <BtnDialog
+          data={buttonData}
+          open={showDialog}
+          onSave={handleSaveButtonConfig}
+          onClose={handleCloseDialog}
+        />
+      </div>
+    </HotKeysHoc>
   )
 }
 
