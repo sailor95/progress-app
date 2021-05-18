@@ -3,19 +3,19 @@ import { ButtonBase, IconButton } from '@material-ui/core'
 import { Add as AddIcon, Create as EditIcon } from '@material-ui/icons'
 import grey from '@material-ui/core/colors/grey'
 
-import { QuickButtonData } from '../../interfaces'
+import { QuickButtonConfig } from '../../interfaces'
 
 import styles from './styles.module.scss'
 
 interface QuickBtnProps {
-  data?: QuickButtonData
+  config?: QuickButtonConfig
   showDialog: () => void
   onEdit: () => void
   onAddProgress: () => void
 }
 
 const QuickBtn: FC<QuickBtnProps> = ({
-  data,
+  config,
   showDialog,
   onEdit,
   onAddProgress,
@@ -41,20 +41,20 @@ const QuickBtn: FC<QuickBtnProps> = ({
     <>
       <ButtonBase
         className={styles.container}
-        onClick={data ? handleAddProgress : showDialog}
+        onClick={config ? handleAddProgress : showDialog}
         aria-label="create"
         disableRipple
         onMouseOver={() => setShowEdit(true)}
         onMouseLeave={() => setShowEdit(false)}
       >
-        {data ? (
+        {config ? (
           <>
             <div className={styles.data_btn}>
               <div
                 className={styles.data_color}
-                style={{ backgroundColor: data.color }}
+                style={{ backgroundColor: config.color }}
               />
-              <div className={styles.data_name}>{data.name}</div>
+              <div className={styles.data_name}>{config.name}</div>
             </div>
             <IconButton
               classes={{ root: styles.edit_btn }}

@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
-import { QuickButtonData } from '../interfaces'
+import { QuickButtonConfig } from '../interfaces'
 import HotKeysHoc from '../../../hoc/HotKeysHoc'
 import { myConsole } from '../../../../utils/dev'
 
@@ -15,16 +15,17 @@ interface QuickBtnSetProp {
 
 const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   const [showDialog, setShowDialog] = useState(false)
-  const [buttonData, setButtonData] = useState<QuickButtonData>()
+  const [buttonConfig, setButtonConfig] = useState<QuickButtonConfig>()
 
   const handleShowDialog = () => {
     setShowDialog(true)
   }
 
   const handleSaveButtonConfig = (data: any) => {
-    console.log(`Save data:`, index, data)
-    setButtonData(data)
-    // TODO: Fire api to save QuickButtonData if all data valid
+    // TODO: Get unique record id for the quick button and save it into buttonConfig
+    // TODO: Fire api to save QuickButtonConfig if all data valid
+    myConsole.dev(`Save data:`, index, data)
+    setButtonConfig(data)
     setShowDialog(false)
   }
 
@@ -39,23 +40,23 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   const handleAddProgress = () => {
     // TODO: Fire api to add progress
-    myConsole.dev('Add progress of', index, buttonData?.name)
+    myConsole.dev('Add progress of', index, buttonConfig?.name)
   }
 
   return (
-    <HotKeysHoc keyName={buttonData?.hotkey} onKeyDown={onKeyDown}>
+    <HotKeysHoc keyName={buttonConfig?.hotkey} onKeyDown={onKeyDown}>
       <div className={styles.container}>
-        <HotkeyHint name={buttonData?.hotkey} />
+        <HotkeyHint name={buttonConfig?.hotkey} />
 
         <QuickBtn
-          data={buttonData}
+          config={buttonConfig}
           showDialog={handleShowDialog}
           onEdit={handleShowDialog}
           onAddProgress={handleAddProgress}
         />
 
         <BtnDialog
-          data={buttonData}
+          config={buttonConfig}
           open={showDialog}
           onSave={handleSaveButtonConfig}
           onClose={handleCloseDialog}

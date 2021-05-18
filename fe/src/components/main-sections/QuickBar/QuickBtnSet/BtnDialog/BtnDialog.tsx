@@ -16,14 +16,14 @@ import {
 } from '@material-ui/icons'
 import { TwitterPicker, ColorResult } from 'react-color'
 
-import { QuickButtonData } from '../../../QuickBar/interfaces'
+import { QuickButtonConfig } from '../../../QuickBar/interfaces'
 
 import styles from './styles.module.scss'
 
 interface BtnDialogProps {
-  data?: QuickButtonData
+  config?: QuickButtonConfig
   open: boolean
-  onSave: (data: QuickButtonData) => void
+  onSave: (data: QuickButtonConfig) => void
   onClose: () => void
 }
 
@@ -33,7 +33,7 @@ type FormValues = {
   color: string
 }
 
-const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
+const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
   const { handleSubmit, control, watch } = useForm<FormValues>()
   const watchColor = watch('color')
@@ -75,7 +75,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
             <Controller
               name="name"
               control={control}
-              defaultValue={data?.name || ''}
+              defaultValue={config?.name || ''}
               rules={{ required: 'Name is required.' }}
               render={({
                 field: { onChange, value },
@@ -102,7 +102,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
             <Controller
               name="hotkey"
               control={control}
-              defaultValue={data?.hotkey || ''}
+              defaultValue={config?.hotkey || ''}
               render={({ field: { onChange, value } }) => (
                 <>
                   <InputLabel classes={{ root: styles.input_label }}>
@@ -123,7 +123,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ data, open, onSave, onClose }) => {
             <Controller
               name="color"
               control={control}
-              defaultValue={data?.color || '#fff'}
+              defaultValue={config?.color || '#fff'}
               render={({ field: { onChange, value } }) => (
                 <>
                   <InputLabel classes={{ root: styles.input_label }}>
