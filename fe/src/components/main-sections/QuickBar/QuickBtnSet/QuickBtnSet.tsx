@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
@@ -6,6 +7,7 @@ import BtnDialog from './BtnDialog'
 import { QuickButtonConfig } from '../interfaces'
 import HotKeysHoc from '../../../hoc/HotKeysHoc'
 import { myConsole } from '../../../../utils/dev'
+import { addButtonConfig } from '../actions'
 
 import styles from './styles.module.scss'
 
@@ -17,15 +19,18 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   const [showDialog, setShowDialog] = useState(false)
   const [buttonConfig, setButtonConfig] = useState<QuickButtonConfig>()
 
+  const dispatch = useDispatch()
+
   const handleShowDialog = () => {
     setShowDialog(true)
   }
 
-  const handleSaveButtonConfig = (data: any) => {
-    // TODO: Get unique record id for the quick button and save it into buttonConfig
+  const handleSaveButtonConfig = (config: any) => {
+    // TODO: Get unique record id for the quick button from BE and save it into buttonConfig
     // TODO: Fire api to save QuickButtonConfig if all data valid
-    myConsole.dev(`Save data:`, index, data)
-    setButtonConfig(data)
+    myConsole.dev(`Save data:`, index, config)
+    dispatch(addButtonConfig(config)) // FIXME: Dispatch this action after api succeeded
+    setButtonConfig(config)
     setShowDialog(false)
   }
 
