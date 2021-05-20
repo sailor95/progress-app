@@ -2,6 +2,7 @@
 
 Good to have items.
 
+- Drag and drop to reorder quick buttons
 - Weekly panel
 - Do unfinished mission postpone to the second day?
 - Settings page

@@ -1,2 +1,2 @@
-import QuickBtnSet from './QuickBtnSet';
-export default QuickBtnSet;
+import QuickBtnSet from './QuickBtnSet'
+export default QuickBtnSet

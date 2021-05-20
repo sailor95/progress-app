@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 
-import QuickBtnSet from './QuickBtnSet';
+import QuickBtnSet from './QuickBtnSet'
 
-import styles from './styles.module.scss';
+import styles from './styles.module.scss'
 
 const QuickBar = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.quickBtns}>
+      <div className={styles.quick_buttons}>
         {[...Array(5)].map((val, idx) => (
           <QuickBtnSet key={idx} index={idx} />
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default QuickBar;
+export default QuickBar
