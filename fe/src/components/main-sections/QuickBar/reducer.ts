@@ -5,7 +5,8 @@ import { QuickBarState, IQuickBarActions } from './interfaces'
 
 const initState: QuickBarState = {
   buttonConfigs: {},
-  test: 'Hi Dave H.',
+  order: [],
+  hotkeySet: {},
 }
 
 const reducer = produce((draft, action: IQuickBarActions) => {
@@ -13,10 +14,18 @@ const reducer = produce((draft, action: IQuickBarActions) => {
 
   switch (type) {
     case QuickBarActions.AddButtonConfig: {
+      const { id, hotkey } = payload
+
       draft.buttonConfigs = {
         ...draft.buttonConfigs,
-        [payload.id as string]: payload,
+        ...(payload.id && { [payload.id as string]: payload }),
       }
+      draft.order.push(id as string)
+      draft.hotkeySet = {
+        ...draft.hotkeySet,
+        ...(hotkey && { [hotkey as string]: hotkey }),
+      }
+
       break
     }
   }

@@ -1,3 +1,5 @@
 import { QuickBarState } from '../components/main-sections/QuickBar/interfaces'
 
-export interface StoreState extends QuickBarState {}
+export interface StoreState {
+  quickBar: QuickBarState
+}

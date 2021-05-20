@@ -12,7 +12,11 @@ export interface QuickBarState {
   buttonConfigs: {
     [configId: string]: QuickButtonConfig
   }
-  test: string // FIXME: Remove this after testing phase
+  order: string[]
+  // All the hotkeys, for quick lookup
+  hotkeySet: {
+    [hotkey: string]: string
+  }
 }
 
 export type IQuickBarActions = AddButtonConfigAction
