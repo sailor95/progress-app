@@ -38,14 +38,16 @@ const QuickBtn: FC<QuickBtnProps> = ({
   }
 
   return (
-    <>
+    <div
+      className={styles.container}
+      onMouseOver={() => setShowEdit(true)}
+      onMouseLeave={() => setShowEdit(false)}
+    >
       <ButtonBase
-        className={styles.container}
+        className={styles.button_base}
         onClick={config ? handleAddProgress : showDialog}
         aria-label="create"
         disableRipple
-        onMouseOver={() => setShowEdit(true)}
-        onMouseLeave={() => setShowEdit(false)}
       >
         {config ? (
           <>
@@ -56,21 +58,23 @@ const QuickBtn: FC<QuickBtnProps> = ({
               />
               <div className={styles.data_name}>{config.name}</div>
             </div>
-            <IconButton
-              classes={{ root: styles.edit_btn }}
-              onClick={handleEdit}
-              size="small"
-              style={{ opacity: showEdit ? 1 : 0 }}
-              aria-label="edit"
-            >
-              <EditIcon />
-            </IconButton>
           </>
         ) : (
           <AddIcon style={{ color: grey[50], fontSize: '4rem' }} />
         )}
       </ButtonBase>
-    </>
+      {config && (
+        <IconButton
+          classes={{ root: styles.edit_btn }}
+          onClick={handleEdit}
+          size="small"
+          style={{ opacity: showEdit ? 1 : 0 }}
+          aria-label="edit"
+        >
+          <EditIcon />
+        </IconButton>
+      )}
+    </div>
   )
 }
 
