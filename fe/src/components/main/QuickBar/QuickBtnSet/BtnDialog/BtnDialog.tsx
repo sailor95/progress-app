@@ -17,7 +17,7 @@ import {
 import { TwitterPicker, ColorResult } from 'react-color'
 
 import { QuickButtonConfig } from '../../interfaces'
-import { useStoreState } from '../../../../../store'
+import { useStoreState } from '@store/index'
 
 import styles from './styles.module.scss'
 
