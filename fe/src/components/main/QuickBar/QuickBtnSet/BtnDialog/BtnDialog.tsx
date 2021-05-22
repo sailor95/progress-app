@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Button,
@@ -16,7 +16,8 @@ import {
 } from '@material-ui/icons'
 import { TwitterPicker, ColorResult } from 'react-color'
 
-import { QuickButtonConfig } from '../../../QuickBar/interfaces'
+import { QuickButtonConfig } from '../../interfaces'
+import { useStoreState } from '@store/index'
 
 import styles from './styles.module.scss'
 
@@ -24,6 +25,7 @@ interface BtnDialogProps {
   config?: QuickButtonConfig
   open: boolean
   onSave: (data: QuickButtonConfig) => void
+  onUpdate: (data: QuickButtonConfig) => void
   onClose: () => void
 }
 
@@ -33,8 +35,18 @@ type FormValues = {
   color: string
 }
 
-const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
+const BtnDialog: FC<BtnDialogProps> = ({
+  config,
+  open,
+  onSave,
+  onUpdate,
+  onClose,
+}) => {
+  const storeHotkeySet = useStoreState((state) => state.quickBar.hotkeySet)
   const [showColorPicker, setShowColorPicker] = useState(false)
+
+  const isEditMode = useMemo(() => !!config?.id, [config?.id])
+
   const { handleSubmit, control, watch } = useForm<FormValues>()
   const watchColor = watch('color')
 
@@ -45,11 +57,31 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
 
   const onSubmit = (data: any) => {
     setShowColorPicker(false)
-    onSave(data)
+
+    if (isEditMode) {
+      onUpdate({ ...data, id: config?.id })
+    } else {
+      onSave(data)
+    }
   }
 
   const handleToggleColorPicker = () => {
     setShowColorPicker((prev) => !prev)
+  }
+
+  const validateDuplicateHotkey = (v: string) => {
+    if (isEditMode && config?.hotkey) {
+      if (v === config.hotkey) {
+        // It's okay to edit a QuickButtonConfig with the same hotkey
+        return true
+      }
+    }
+
+    // It's not okay to use exist hotkey
+    return (
+      !storeHotkeySet.hasOwnProperty(v) ||
+      'This Hotkey is already in use, please pick another one.'
+    )
   }
 
   return (
@@ -103,7 +135,15 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
               name="hotkey"
               control={control}
               defaultValue={config?.hotkey || ''}
-              render={({ field: { onChange, value } }) => (
+              rules={{
+                validate: {
+                  notRepeat: validateDuplicateHotkey,
+                },
+              }}
+              render={({
+                field: { onChange, value },
+                fieldState: { error, invalid },
+              }) => (
                 <>
                   <InputLabel classes={{ root: styles.input_label }}>
                     Hotkey
@@ -113,6 +153,8 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
                     onChange={onChange}
                     variant="outlined"
                     placeholder="Set hotkey"
+                    error={invalid}
+                    helperText={error?.message}
                     classes={{ root: styles.text_field }}
                     InputProps={{ classes: { input: styles.input } }}
                   />
@@ -136,7 +178,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
                     >
                       <div
                         className={styles.picker_block_inner}
-                        style={{ backgroundColor: watchColor }}
+                        style={{ backgroundColor: watchColor || config?.color }}
                       />
                     </div>
                     {showColorPicker && (
@@ -159,7 +201,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
             startIcon={<SaveIcon />}
             type="submit"
           >
-            Save
+            {isEditMode ? 'Update' : 'Save'}
           </Button>
 
           {/* TODO: Determine whether need clear button */}

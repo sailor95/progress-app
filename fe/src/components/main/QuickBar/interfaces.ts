@@ -12,12 +12,20 @@ export interface QuickBarState {
   buttonConfigs: {
     [configId: string]: QuickButtonConfig
   }
-  test: string // FIXME: Remove this after testing phase
+  order: string[]
+  hotkeySet: {
+    [hotkey: string]: string
+  }
 }
 
-export type IQuickBarActions = AddButtonConfigAction
+export type IQuickBarActions = AddButtonConfigAction | UpdateButtonConfigAction
 
 export interface AddButtonConfigAction {
   type: QuickBarActions.AddButtonConfig
+  payload: QuickButtonConfig
+}
+
+export interface UpdateButtonConfigAction {
+  type: QuickBarActions.UpdateButtonConfig
   payload: QuickButtonConfig
 }

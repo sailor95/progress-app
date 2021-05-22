@@ -1,13 +1,14 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
+import HotKeysHoc from '@components/hoc/HotKeysHoc'
+import { myConsole } from '@utils/dev'
+import { addButtonConfig, updateButtonConfig } from '../actions'
+import { useStoreState } from '@store/index'
 import { QuickButtonConfig } from '../interfaces'
-import HotKeysHoc from '../../../hoc/HotKeysHoc'
-import { myConsole } from '../../../../utils/dev'
-import { addButtonConfig } from '../actions'
 
 import styles from './styles.module.scss'
 
@@ -16,8 +17,16 @@ interface QuickBtnSetProp {
 }
 
 const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
+  const storeButtonConfigs = useStoreState(
+    (state) => state.quickBar.buttonConfigs
+  )
+  const storeButtonConfigOrder = useStoreState((state) => state.quickBar.order)
   const [showDialog, setShowDialog] = useState(false)
-  const [buttonConfig, setButtonConfig] = useState<QuickButtonConfig>()
+
+  const ownConfig = useMemo(
+    () => storeButtonConfigs[storeButtonConfigOrder[index]],
+    [storeButtonConfigs, storeButtonConfigOrder, index]
+  )
 
   const dispatch = useDispatch()
 
@@ -25,12 +34,17 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     setShowDialog(true)
   }
 
-  const handleSaveButtonConfig = (config: any) => {
-    // TODO: Get unique record id for the quick button from BE and save it into buttonConfig
+  const handleSaveButtonConfig = (config: QuickButtonConfig) => {
     // TODO: Fire api to save QuickButtonConfig if all data valid
-    myConsole.dev(`Save data:`, index, config)
+    myConsole.api(`Save data:`, index, config)
     dispatch(addButtonConfig(config)) // FIXME: Dispatch this action after api succeeded
-    setButtonConfig(config)
+    setShowDialog(false)
+  }
+
+  const handleUpdateButtonConfig = (config: QuickButtonConfig) => {
+    // TODO: Fire api to update QuickButtonConfig if all data valid
+    myConsole.api(`Update data:`, index, config)
+    dispatch(updateButtonConfig(config)) // FIXME: Dispatch this action after api succeeded
     setShowDialog(false)
   }
 
@@ -45,25 +59,26 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   const handleAddProgress = () => {
     // TODO: Fire api to add progress
-    myConsole.dev('Add progress of', index, buttonConfig?.name)
+    myConsole.api('Add progress of', index, ownConfig?.name)
   }
 
   return (
-    <HotKeysHoc keyName={buttonConfig?.hotkey} onKeyDown={onKeyDown}>
+    <HotKeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
       <div className={styles.container}>
-        <HotkeyHint name={buttonConfig?.hotkey} />
+        <HotkeyHint name={ownConfig?.hotkey} />
 
         <QuickBtn
-          config={buttonConfig}
+          config={ownConfig}
           showDialog={handleShowDialog}
           onEdit={handleShowDialog}
           onAddProgress={handleAddProgress}
         />
 
         <BtnDialog
-          config={buttonConfig}
+          config={ownConfig}
           open={showDialog}
           onSave={handleSaveButtonConfig}
+          onUpdate={handleUpdateButtonConfig}
           onClose={handleCloseDialog}
         />
       </div>
