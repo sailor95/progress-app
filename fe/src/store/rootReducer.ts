@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import quickBarReducer from '../components/main-sections/QuickBar/reducer'
+import quickBarReducer from '../components/main/QuickBar/reducer'
 
 const rootReducer = combineReducers({
   quickBar: quickBarReducer,

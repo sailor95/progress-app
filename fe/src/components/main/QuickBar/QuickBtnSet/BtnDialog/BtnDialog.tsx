@@ -16,7 +16,7 @@ import {
 } from '@material-ui/icons'
 import { TwitterPicker, ColorResult } from 'react-color'
 
-import { QuickButtonConfig } from '../../../QuickBar/interfaces'
+import { QuickButtonConfig } from '../../interfaces'
 import { useStoreState } from '../../../../../store'
 
 import styles from './styles.module.scss'
