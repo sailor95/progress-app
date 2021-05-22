@@ -13,15 +13,19 @@ export interface QuickBarState {
     [configId: string]: QuickButtonConfig
   }
   order: string[]
-  // All the hotkeys, for quick lookup
   hotkeySet: {
     [hotkey: string]: string
   }
 }
 
-export type IQuickBarActions = AddButtonConfigAction
+export type IQuickBarActions = AddButtonConfigAction | UpdateButtonConfigAction
 
 export interface AddButtonConfigAction {
   type: QuickBarActions.AddButtonConfig
+  payload: QuickButtonConfig
+}
+
+export interface UpdateButtonConfigAction {
+  type: QuickBarActions.UpdateButtonConfig
   payload: QuickButtonConfig
 }

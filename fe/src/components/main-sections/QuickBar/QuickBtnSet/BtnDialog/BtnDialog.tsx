@@ -25,7 +25,7 @@ interface BtnDialogProps {
   config?: QuickButtonConfig
   open: boolean
   onSave: (data: QuickButtonConfig) => void
-  // TODO: Add onUpdate cb
+  onUpdate: (data: QuickButtonConfig) => void
   onClose: () => void
 }
 
@@ -35,13 +35,17 @@ type FormValues = {
   color: string
 }
 
-const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
+const BtnDialog: FC<BtnDialogProps> = ({
+  config,
+  open,
+  onSave,
+  onUpdate,
+  onClose,
+}) => {
   const storeHotkeySet = useStoreState((state) => state.quickBar.hotkeySet)
   const [showColorPicker, setShowColorPicker] = useState(false)
 
   const isEditMode = useMemo(() => !!config?.id, [config?.id])
-
-  console.log(config) // FIXME: Remove after update mode finished
 
   const { handleSubmit, control, watch } = useForm<FormValues>()
   const watchColor = watch('color')
@@ -53,8 +57,12 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
 
   const onSubmit = (data: any) => {
     setShowColorPicker(false)
-    // TODO: Pick save cb based on isEditMode
-    onSave(data)
+
+    if (isEditMode) {
+      onUpdate({ ...data, id: config?.id })
+    } else {
+      onSave(data)
+    }
   }
 
   const handleToggleColorPicker = () => {
@@ -170,7 +178,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
                     >
                       <div
                         className={styles.picker_block_inner}
-                        style={{ backgroundColor: watchColor }}
+                        style={{ backgroundColor: watchColor || config?.color }}
                       />
                     </div>
                     {showColorPicker && (
@@ -193,7 +201,7 @@ const BtnDialog: FC<BtnDialogProps> = ({ config, open, onSave, onClose }) => {
             startIcon={<SaveIcon />}
             type="submit"
           >
-            Save
+            {isEditMode ? 'Update' : 'Save'}
           </Button>
 
           {/* TODO: Determine whether need clear button */}
