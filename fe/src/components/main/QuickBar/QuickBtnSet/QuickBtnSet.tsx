@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
-import HotKeysHoc from '@components/hoc/HotKeysHoc'
+import HotkeysHoc from '@components/hoc/HotkeysHoc'
 import { myConsole } from '@utils/dev'
 import { addButtonConfig, updateButtonConfig } from '../actions'
 import { useStoreState } from '@store/index'
@@ -63,7 +63,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   }
 
   return (
-    <HotKeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
+    <HotkeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
       <div className={styles.container}>
         <HotkeyHint name={ownConfig?.hotkey} />
 
@@ -82,7 +82,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
           onClose={handleCloseDialog}
         />
       </div>
-    </HotKeysHoc>
+    </HotkeysHoc>
   )
 }
 
