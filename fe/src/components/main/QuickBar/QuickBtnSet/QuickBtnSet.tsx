@@ -1,13 +1,13 @@
-import React, { FC, useState, useMemo } from 'react'
+import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import HotkeysHoc from '@components/hoc/HotkeysHoc'
+import { myConsole } from '@utils/dev'
+import { useOwnButtonConfig } from '@hooks/index'
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
-import HotkeysHoc from '@components/hoc/HotkeysHoc'
-import { myConsole } from '@utils/dev'
 import { addButtonConfig, updateButtonConfig } from '../actions'
-import { useStoreState } from '@store/index'
 import { QuickButtonConfig } from '../interfaces'
 
 import styles from './styles.module.scss'
@@ -17,16 +17,9 @@ interface QuickBtnSetProp {
 }
 
 const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
-  const storeButtonConfigs = useStoreState(
-    (state) => state.quickBar.buttonConfigs
-  )
-  const storeButtonConfigOrder = useStoreState((state) => state.quickBar.order)
   const [showDialog, setShowDialog] = useState(false)
 
-  const ownConfig = useMemo(
-    () => storeButtonConfigs[storeButtonConfigOrder[index]],
-    [storeButtonConfigs, storeButtonConfigOrder, index]
-  )
+  const ownConfig = useOwnButtonConfig(index)
 
   const dispatch = useDispatch()
 
