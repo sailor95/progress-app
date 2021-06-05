@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, KeyboardEvent, useMemo, useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Button,
@@ -16,8 +16,10 @@ import {
 } from '@material-ui/icons'
 import { TwitterPicker, ColorResult } from 'react-color'
 
-import { QuickButtonConfig } from '../../interfaces'
 import { useStoreState } from '@store/index'
+import { hotkeyHelper } from '@utils/keyboard'
+import { QuickButtonConfig } from '../../interfaces'
+import { MAX_COMBO_KEY_COUNT } from '../../constants'
 
 import styles from './styles.module.scss'
 
@@ -45,9 +47,12 @@ const BtnDialog: FC<BtnDialogProps> = ({
   const storeHotkeySet = useStoreState((state) => state.quickBar.hotkeySet)
   const [showColorPicker, setShowColorPicker] = useState(false)
 
+  const comboKeySet = useRef<string[]>([])
+
   const isEditMode = useMemo(() => !!config?.id, [config?.id])
 
-  const { handleSubmit, control, watch } = useForm<FormValues>()
+  const { handleSubmit, control, watch, setValue, setError, clearErrors } =
+    useForm<FormValues>()
   const watchColor = watch('color')
 
   const handleClose = () => {
@@ -82,6 +87,50 @@ const BtnDialog: FC<BtnDialogProps> = ({
       !storeHotkeySet.hasOwnProperty(v) ||
       'This Hotkey is already in use, please pick another one.'
     )
+  }
+
+  const onKeyUp = (e: KeyboardEvent) => {
+    if (comboKeySet.current.length) {
+      const newHotkey = comboKeySet.current.reduce((acc, curr, idx) => {
+        const formattedCurr = hotkeyHelper.getKeyName(curr)
+        return idx === 0 ? formattedCurr : `${acc}+${formattedCurr}`
+      }, '')
+
+      setValue('hotkey', newHotkey)
+
+      // Cleanup after saving new hotkey
+      clearErrors('hotkey')
+      comboKeySet.current = []
+    }
+  }
+
+  const onKeyDown = ({ key }: KeyboardEvent) => {
+    if (hotkeyHelper.isDeleteKey(key)) {
+      setValue('hotkey', '')
+      clearErrors('hotkey')
+      comboKeySet.current = []
+      return
+    }
+
+    if (comboKeySet.current.length < MAX_COMBO_KEY_COUNT) {
+      if (hotkeyHelper.validateKey(key)) {
+        comboKeySet.current.push(key)
+      } else {
+        setError('hotkey', {
+          type: 'validate',
+          message: `Does not support '${hotkeyHelper.getKeyName(
+            key
+          )}' as hotkey.`,
+        })
+        comboKeySet.current = []
+      }
+    } else {
+      setError('hotkey', {
+        type: 'validate',
+        message: `Exceed keys count. At most 2 combo keys.`,
+      })
+      comboKeySet.current = []
+    }
   }
 
   return (
@@ -157,6 +206,9 @@ const BtnDialog: FC<BtnDialogProps> = ({
                     helperText={error?.message}
                     classes={{ root: styles.text_field }}
                     InputProps={{ classes: { input: styles.input } }}
+                    onKeyUp={onKeyUp}
+                    onKeyDown={onKeyDown}
+                    inputProps={{ readOnly: true }}
                   />
                 </>
               )}
