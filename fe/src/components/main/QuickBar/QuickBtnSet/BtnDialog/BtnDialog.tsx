@@ -93,7 +93,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
     if (comboKeySet.current.length) {
       const newHotkey = comboKeySet.current.reduce((acc, curr, idx) => {
         const formattedCurr = hotkeyHelper.getKeyName(curr)
-        return idx === 0 ? formattedCurr : `${acc}+${formattedCurr}`
+        return idx === 0 ? formattedCurr : `${acc} + ${formattedCurr}`
       }, '')
 
       setValue('hotkey', newHotkey)
@@ -104,7 +104,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
     }
   }
 
-  const onKeyDown = ({ key }: KeyboardEvent) => {
+  const onKeyDown = ({ key, code }: KeyboardEvent) => {
     if (hotkeyHelper.isDeleteKey(key)) {
       setValue('hotkey', '')
       clearErrors('hotkey')
@@ -113,8 +113,9 @@ const BtnDialog: FC<BtnDialogProps> = ({
     }
 
     if (comboKeySet.current.length < MAX_COMBO_KEY_COUNT) {
-      if (hotkeyHelper.validateKey(key)) {
-        comboKeySet.current.push(key)
+      if (hotkeyHelper.isValidKey(key)) {
+        const newKey = hotkeyHelper.getDistinguishedKey(key, code)
+        comboKeySet.current.push(newKey)
       } else {
         setError('hotkey', {
           type: 'validate',

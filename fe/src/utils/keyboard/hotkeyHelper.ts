@@ -5,7 +5,9 @@ const SPECIAL_HOTKEYS_SET = new Set(SPECIAL_HOTKEYS)
 
 const DELETE_KEY_SET = new Set(['Backspace', 'Delete', 'Escape'])
 
-export const validateKey = (key: string): boolean => {
+const NUMPAD_CODE = 'Numpad'
+
+export const isValidKey = (key: string): boolean => {
   if (key.length > 1) {
     return SPECIAL_HOTKEYS_SET.has(key)
   }
@@ -15,6 +17,16 @@ export const validateKey = (key: string): boolean => {
   }
 
   return false
+}
+
+// Distinguish special case by KeyboardEvent's code
+export const getDistinguishedKey = (key: string, code: string): string => {
+  // Distinguish 'digit number' & 'numpad number' (Numpad1 -> num_1)
+  if (code.includes(NUMPAD_CODE)) {
+    return `num_${code.split(NUMPAD_CODE)[1]}`
+  }
+
+  return key
 }
 
 export const getKeyName = (key: string): string => {
