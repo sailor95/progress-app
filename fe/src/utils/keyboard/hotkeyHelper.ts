@@ -5,7 +5,7 @@ const SPECIAL_HOTKEYS_SET = new Set(SPECIAL_HOTKEYS)
 
 const DELETE_KEY_SET = new Set(['Backspace', 'Delete', 'Escape'])
 
-const DISPLAY_RULE: { [key: string]: (param: any) => string } = {
+const KEY_DISPLAY_RULE: { [key: string]: (param: any) => string } = {
   num: (val: string) =>
     val
       .split('_')
@@ -60,7 +60,7 @@ export const isDeleteKey = (key: string): boolean => {
 }
 
 export const getDisplayKey = (keyName: string): string => {
-  for (const [key, value] of Object.entries(DISPLAY_RULE)) {
+  for (const [key, value] of Object.entries(KEY_DISPLAY_RULE)) {
     if (keyName.toLowerCase().includes(key)) {
       return value(keyName)
     }

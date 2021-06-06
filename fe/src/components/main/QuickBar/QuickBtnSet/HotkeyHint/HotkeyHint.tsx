@@ -6,12 +6,13 @@ import styles from './styles.module.scss'
 
 interface HotkeyHintProps {
   name?: string
+  clicked?: boolean
 }
 
 const pLUS_SIGN = '+'
 
 // NOTE: This component uses keyboard CSS from: https://github.com/shhdharmen/keyboard-css
-const HotkeyHint: FC<HotkeyHintProps> = ({ name }) => {
+const HotkeyHint: FC<HotkeyHintProps> = ({ name, clicked }) => {
   const isComboKey = name?.includes(pLUS_SIGN)
 
   return (
@@ -23,7 +24,9 @@ const HotkeyHint: FC<HotkeyHintProps> = ({ name }) => {
           displayKey && (
             <Fragment key={key}>
               <div
-                className="kbc-button kbc-button-lg"
+                className={`kbc-button kbc-button-lg ${
+                  clicked ? 'kbc-button-success' : ''
+                }`}
                 style={{ fontSize: '1.5rem', whiteSpace: 'nowrap' }}
               >
                 {displayKey}

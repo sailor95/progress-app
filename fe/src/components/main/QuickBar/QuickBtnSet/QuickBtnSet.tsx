@@ -18,6 +18,7 @@ interface QuickBtnSetProp {
 
 const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   const [showDialog, setShowDialog] = useState(false)
+  const [showClicked, setShowClicked] = useState(false)
 
   const ownConfig = useOwnButtonConfig(index)
 
@@ -25,6 +26,13 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   const handleShowDialog = () => {
     setShowDialog(true)
+  }
+
+  const showClickEffect = () => {
+    setShowClicked(true)
+    setTimeout(() => {
+      setShowClicked(false)
+    }, 100)
   }
 
   const handleSaveButtonConfig = (config: QuickButtonConfig) => {
@@ -47,6 +55,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   const onKeyDown = (keyName: string, e: KeyboardEvent, handle: any) => {
     myConsole.dev('Key down', keyName)
+    showClickEffect()
     handleAddProgress()
   }
 
@@ -58,7 +67,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   return (
     <HotkeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
       <div className={styles.container}>
-        <HotkeyHint name={ownConfig?.hotkey} />
+        <HotkeyHint name={ownConfig?.hotkey} clicked={showClicked} />
 
         <QuickBtn
           config={ownConfig}
