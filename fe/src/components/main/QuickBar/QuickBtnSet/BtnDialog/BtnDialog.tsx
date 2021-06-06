@@ -47,7 +47,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
   const storeHotkeySet = useStoreState((state) => state.quickBar.hotkeySet)
   const [showColorPicker, setShowColorPicker] = useState(false)
 
-  const comboKeySet = useRef<string[]>([])
+  const hotKeyStack = useRef<string[]>([])
 
   const isEditMode = useMemo(() => !!config?.id, [config?.id])
 
@@ -89,33 +89,16 @@ const BtnDialog: FC<BtnDialogProps> = ({
     )
   }
 
-  const onKeyUp = (e: KeyboardEvent) => {
-    if (comboKeySet.current.length) {
-      const newHotkey = comboKeySet.current.reduce((acc, curr, idx) => {
-        const formattedCurr = hotkeyHelper.getKeyName(curr)
-        return idx === 0 ? formattedCurr : `${acc} + ${formattedCurr}`
-      }, '')
-
-      setValue('hotkey', newHotkey)
-
-      // Cleanup after saving new hotkey
-      clearErrors('hotkey')
-      comboKeySet.current = []
-    }
+  const cleanupHotkeyStack = () => {
+    clearErrors('hotkey')
+    hotKeyStack.current = []
   }
 
-  const onKeyDown = ({ key, code }: KeyboardEvent) => {
-    if (hotkeyHelper.isDeleteKey(key)) {
-      setValue('hotkey', '')
-      clearErrors('hotkey')
-      comboKeySet.current = []
-      return
-    }
-
-    if (comboKeySet.current.length < MAX_COMBO_KEY_COUNT) {
+  const updateHotkeyStack = ({ key, code }: KeyboardEvent) => {
+    if (hotKeyStack.current.length < MAX_COMBO_KEY_COUNT) {
       if (hotkeyHelper.isValidKey(key)) {
         const newKey = hotkeyHelper.getDistinguishedKey(key, code)
-        comboKeySet.current.push(newKey)
+        hotKeyStack.current.push(newKey)
       } else {
         setError('hotkey', {
           type: 'validate',
@@ -123,15 +106,47 @@ const BtnDialog: FC<BtnDialogProps> = ({
             key
           )}' as hotkey.`,
         })
-        comboKeySet.current = []
+        hotKeyStack.current = []
       }
     } else {
       setError('hotkey', {
         type: 'validate',
         message: `Exceed keys count. At most 2 combo keys.`,
       })
-      comboKeySet.current = []
+      hotKeyStack.current = []
     }
+  }
+
+  const cleanupHotkeyInput = () => {
+    cleanupHotkeyStack()
+    setValue('hotkey', '')
+  }
+
+  // Hotkey value will be saved to HotkeyStack first then update to HotkeyInput
+  const updateHotkeyInput = () => {
+    if (hotKeyStack.current.length) {
+      const newHotkey = hotKeyStack.current.reduce((acc, curr, idx) => {
+        const formattedCurr = hotkeyHelper.getKeyName(curr)
+        return idx === 0 ? formattedCurr : `${acc} + ${formattedCurr}`
+      }, '')
+
+      setValue('hotkey', newHotkey)
+
+      cleanupHotkeyStack()
+    }
+  }
+
+  const onKeyUp = (e: KeyboardEvent) => {
+    updateHotkeyInput()
+  }
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (hotkeyHelper.isDeleteKey(e.key)) {
+      cleanupHotkeyInput()
+      return
+    }
+
+    updateHotkeyStack(e)
   }
 
   return (
