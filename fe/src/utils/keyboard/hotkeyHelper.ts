@@ -1,3 +1,5 @@
+import { QuickButtonConfig } from '@components/main/QuickBar/interfaces'
+
 const REGULAR_HOTKEY_REGEX = /[a-zA-Z0-9/`\s\\[\];',.*\-=+_|{}:">?]/
 
 const SPECIAL_HOTKEYS: string[] = ['CapsLock', 'Control', 'Alt']

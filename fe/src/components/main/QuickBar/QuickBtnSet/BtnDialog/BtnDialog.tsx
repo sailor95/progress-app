@@ -74,19 +74,35 @@ const BtnDialog: FC<BtnDialogProps> = ({
     setShowColorPicker((prev) => !prev)
   }
 
-  const validateDuplicateHotkey = (v: string) => {
+  const validateDuplicateHotkey = (key: string) => {
+    // It's okay to edit a QuickButtonConfig with the same hotkey
     if (isEditMode && config?.hotkey) {
-      if (v === config.hotkey) {
-        // It's okay to edit a QuickButtonConfig with the same hotkey
+      if (key === config.hotkey) {
         return true
       }
     }
 
-    // It's not okay to use exist hotkey
-    return (
-      !storeHotkeySet.hasOwnProperty(v) ||
-      'This Hotkey is already in use, please pick another one.'
-    )
+    if (storeHotkeySet.hasOwnProperty(key)) {
+      return 'This Hotkey is already in use, please pick another one.'
+    }
+
+    // Do not duplicate single key as the first key of combo key
+    for (let hotkey in storeHotkeySet) {
+      console.log(hotkey)
+      if (key.length === 1 && hotkey.length > 1) {
+        if (key === hotkey[0]) {
+          return `${key} is already in use for other combo key as 1st key.`
+        }
+      }
+
+      if (key.length > 1 && hotkey.length === 1) {
+        if (key[0] === hotkey) {
+          return `${hotkey} is already in use for other hotkey.`
+        }
+      }
+    }
+
+    return true
   }
 
   const cleanupHotkeyStack = () => {
