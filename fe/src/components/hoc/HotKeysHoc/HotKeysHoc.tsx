@@ -1,14 +1,14 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import Hotkeys from 'react-hot-keys'
 
-interface HotKeyHocProps {
+interface HotkeysHocProps {
   children: ReactNode
   keyName?: string
   onKeyUp?: (keyName: string, e: KeyboardEvent, handle: any) => void
   onKeyDown?: (keyName: string, e: KeyboardEvent, handle: any) => void
 }
 
-const HotKeyHoc: FC<HotKeyHocProps> = ({
+const HotkeysHoc: FC<HotkeysHocProps> = ({
   children,
   keyName,
   onKeyUp,
@@ -33,4 +33,4 @@ const HotKeyHoc: FC<HotKeyHocProps> = ({
   )
 }
 
-export default HotKeyHoc
+export default HotkeysHoc

@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, KeyboardEvent, useMemo, useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Button,
@@ -16,8 +16,10 @@ import {
 } from '@material-ui/icons'
 import { TwitterPicker, ColorResult } from 'react-color'
 
-import { QuickButtonConfig } from '../../interfaces'
 import { useStoreState } from '@store/index'
+import { hotkeyHelper } from '@utils/keyboard'
+import { QuickButtonConfig } from '../../interfaces'
+import { MAX_COMBO_KEY_COUNT } from '../../constants'
 
 import styles from './styles.module.scss'
 
@@ -45,9 +47,12 @@ const BtnDialog: FC<BtnDialogProps> = ({
   const storeHotkeySet = useStoreState((state) => state.quickBar.hotkeySet)
   const [showColorPicker, setShowColorPicker] = useState(false)
 
+  const hotKeyStack = useRef<string[]>([])
+
   const isEditMode = useMemo(() => !!config?.id, [config?.id])
 
-  const { handleSubmit, control, watch } = useForm<FormValues>()
+  const { handleSubmit, control, watch, setValue, setError, clearErrors } =
+    useForm<FormValues>()
   const watchColor = watch('color')
 
   const handleClose = () => {
@@ -69,19 +74,95 @@ const BtnDialog: FC<BtnDialogProps> = ({
     setShowColorPicker((prev) => !prev)
   }
 
-  const validateDuplicateHotkey = (v: string) => {
+  const validateDuplicateHotkey = (key: string) => {
+    // It's okay to edit a QuickButtonConfig with the same hotkey
     if (isEditMode && config?.hotkey) {
-      if (v === config.hotkey) {
-        // It's okay to edit a QuickButtonConfig with the same hotkey
+      if (key === config.hotkey) {
         return true
       }
     }
 
-    // It's not okay to use exist hotkey
-    return (
-      !storeHotkeySet.hasOwnProperty(v) ||
-      'This Hotkey is already in use, please pick another one.'
-    )
+    if (storeHotkeySet.hasOwnProperty(key)) {
+      return 'This Hotkey is already in use, please pick another one.'
+    }
+
+    // Do not duplicate single key as the first key of combo key
+    for (let hotkey in storeHotkeySet) {
+      console.log(hotkey)
+      if (key.length === 1 && hotkey.length > 1) {
+        if (key === hotkey[0]) {
+          return `${key} is already in use for other combo key as 1st key.`
+        }
+      }
+
+      if (key.length > 1 && hotkey.length === 1) {
+        if (key[0] === hotkey) {
+          return `${hotkey} is already in use for other hotkey.`
+        }
+      }
+    }
+
+    return true
+  }
+
+  const cleanupHotkeyStack = () => {
+    clearErrors('hotkey')
+    hotKeyStack.current = []
+  }
+
+  const updateHotkeyStack = ({ key, code }: KeyboardEvent) => {
+    if (hotKeyStack.current.length < MAX_COMBO_KEY_COUNT) {
+      if (hotkeyHelper.isValidKey(key)) {
+        const newKey = hotkeyHelper.getDistinguishedKey(key, code)
+        hotKeyStack.current.push(newKey)
+      } else {
+        setError('hotkey', {
+          type: 'validate',
+          message: `Does not support '${hotkeyHelper.getKeyName(
+            key
+          )}' as hotkey.`,
+        })
+        hotKeyStack.current = []
+      }
+    } else {
+      setError('hotkey', {
+        type: 'validate',
+        message: `Exceed keys count. At most 2 combo keys.`,
+      })
+      hotKeyStack.current = []
+    }
+  }
+
+  const cleanupHotkeyInput = () => {
+    cleanupHotkeyStack()
+    setValue('hotkey', '')
+  }
+
+  // Hotkey value will be saved to HotkeyStack first then update to HotkeyInput
+  const updateHotkeyInput = () => {
+    if (hotKeyStack.current.length) {
+      const newHotkey = hotKeyStack.current.reduce((acc, curr, idx) => {
+        const formattedCurr = hotkeyHelper.getKeyName(curr)
+        return idx === 0 ? formattedCurr : `${acc} + ${formattedCurr}`
+      }, '')
+
+      setValue('hotkey', newHotkey)
+
+      cleanupHotkeyStack()
+    }
+  }
+
+  const onKeyUp = (e: KeyboardEvent) => {
+    updateHotkeyInput()
+  }
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (hotkeyHelper.isDeleteKey(e.key)) {
+      cleanupHotkeyInput()
+      return
+    }
+
+    updateHotkeyStack(e)
   }
 
   return (
@@ -157,6 +238,9 @@ const BtnDialog: FC<BtnDialogProps> = ({
                     helperText={error?.message}
                     classes={{ root: styles.text_field }}
                     InputProps={{ classes: { input: styles.input } }}
+                    onKeyUp={onKeyUp}
+                    onKeyDown={onKeyDown}
+                    inputProps={{ readOnly: true }}
                   />
                 </>
               )}

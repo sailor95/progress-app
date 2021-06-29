@@ -1,13 +1,13 @@
-import React, { FC, useState, useMemo } from 'react'
+import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import HotkeysHoc from '@components/hoc/HotkeysHoc'
+import { myConsole } from '@utils/dev'
+import { useOwnButtonConfig } from '@hooks/index'
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
-import HotKeysHoc from '@components/hoc/HotKeysHoc'
-import { myConsole } from '@utils/dev'
 import { addButtonConfig, updateButtonConfig } from '../actions'
-import { useStoreState } from '@store/index'
 import { QuickButtonConfig } from '../interfaces'
 
 import styles from './styles.module.scss'
@@ -17,21 +17,22 @@ interface QuickBtnSetProp {
 }
 
 const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
-  const storeButtonConfigs = useStoreState(
-    (state) => state.quickBar.buttonConfigs
-  )
-  const storeButtonConfigOrder = useStoreState((state) => state.quickBar.order)
   const [showDialog, setShowDialog] = useState(false)
+  const [showClicked, setShowClicked] = useState(false)
 
-  const ownConfig = useMemo(
-    () => storeButtonConfigs[storeButtonConfigOrder[index]],
-    [storeButtonConfigs, storeButtonConfigOrder, index]
-  )
+  const ownConfig = useOwnButtonConfig(index)
 
   const dispatch = useDispatch()
 
   const handleShowDialog = () => {
     setShowDialog(true)
+  }
+
+  const showClickEffect = () => {
+    setShowClicked(true)
+    setTimeout(() => {
+      setShowClicked(false)
+    }, 100)
   }
 
   const handleSaveButtonConfig = (config: QuickButtonConfig) => {
@@ -54,6 +55,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   const onKeyDown = (keyName: string, e: KeyboardEvent, handle: any) => {
     myConsole.dev('Key down', keyName)
+    showClickEffect()
     handleAddProgress()
   }
 
@@ -63,9 +65,9 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   }
 
   return (
-    <HotKeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
+    <HotkeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
       <div className={styles.container}>
-        <HotkeyHint name={ownConfig?.hotkey} />
+        <HotkeyHint name={ownConfig?.hotkey} clicked={showClicked} />
 
         <QuickBtn
           config={ownConfig}
@@ -82,7 +84,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
           onClose={handleCloseDialog}
         />
       </div>
-    </HotKeysHoc>
+    </HotkeysHoc>
   )
 }
 

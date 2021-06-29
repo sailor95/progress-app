@@ -1,2 +1,2 @@
-import HotKeysHoc from './HotKeysHoc'
-export default HotKeysHoc
+import HotkeysHoc from './HotkeysHoc'
+export default HotkeysHoc
