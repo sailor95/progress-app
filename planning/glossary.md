@@ -8,7 +8,7 @@ Separate by UI & Functional.
   - `Quick Buttons`: Customizable buttons for user to add progress quickly
 - `Progress Bar`: Consist of weekly/monthly view of progress records, divided by category
   - `Progress Cube`: Each category of progress is consist of many progress cubes (1 progress cube stand for 1 progress record added, it's the UI representation of record)
-- `Today's Progress`: Consist of today's progress record, user can do CRUD operation to today's progress record in this area. User can also edit progress description detail and photos here in the future version.
+- `Mission Board`: Consist of today's progress record, user can do CRUD operation to today's progress record in this area. User can also edit progress description detail and photos here in the future version.
 
 ## Functional
 
