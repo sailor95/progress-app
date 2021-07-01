@@ -1,8 +1,23 @@
 @import '../../../utils/styles/mixins.module.scss';
 
 .container {
-  @include flex-all-center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   position: relative;
-  height: 35vh;
-  background-color: cadetblue;
+  width: 100%;
+  // background-color: cadetblue; // FIXME: Remove after phase 0
+  margin-bottom: 30px;
+}
+
+.section_name {
+  position: absolute;
+}
+
+.board {
+  @include flex-all-center;
+  min-width: 950px;
+  min-height: 300px;
+  border-radius: 7px;
+  background-color: var(--gray-1);
 }

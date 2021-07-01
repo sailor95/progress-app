@@ -15,6 +15,7 @@ const App = () => {
   const [theme, setTheme] = useState<Theme>(LIGHT_THEME)
 
   // TODO: Use this in the future
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const switchTheme = () => {
     setTheme(theme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME)
   }

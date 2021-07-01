@@ -5,7 +5,7 @@
 
   &:hover {
     .button_base {
-      background-color: #c4c4c4;
+      background-color: var(--gray-2);
     }
   }
 }
@@ -16,7 +16,7 @@
   width: 140px;
   height: 90px;
   border-radius: 7px;
-  background-color: #ebecf0;
+  background-color: var(--gray-1);
   box-shadow: 1px 1px 2px rgba($color: #000000, $alpha: 0.25);
   cursor: pointer;
 }
@@ -46,6 +46,6 @@
   z-index: 1;
 
   &:hover {
-    background-color: #ebecf0;
+    background-color: var(--gray-1);
   }
 }
