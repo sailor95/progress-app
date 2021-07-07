@@ -15,7 +15,7 @@
 }
 
 .board {
-  @include flex-all-center;
+  padding: 20px;
   min-width: 950px;
   min-height: 300px;
   border-radius: 7px;
