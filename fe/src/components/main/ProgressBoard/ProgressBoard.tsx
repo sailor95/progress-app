@@ -31,6 +31,24 @@ const MOCK_PROGRESS_LIST: ProgressRecord[] = [
     recordCount: 1,
     colorHex: 'darkgreen',
   },
+  {
+    id: 4,
+    name: 'D',
+    recordCount: 2,
+    colorHex: 'orange',
+  },
+  {
+    id: 5,
+    name: 'E',
+    recordCount: 3,
+    colorHex: 'purple',
+  },
+  {
+    id: 6,
+    name: 'F',
+    recordCount: 1,
+    colorHex: 'gray',
+  },
 ]
 
 const ProgressBoard = () => {

@@ -12,7 +12,6 @@ interface ProgressBarsProps {
 const ProgressBars: FC<ProgressBarsProps> = ({ progressList }) => {
   return (
     <div className={styles.container}>
-      {/* TODO: We need grid here */}
       {progressList.map((progress) => (
         <Fragment key={progress.id}>
           <ProgressBar
