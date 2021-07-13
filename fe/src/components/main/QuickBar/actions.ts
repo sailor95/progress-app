@@ -1,35 +1,27 @@
 import { QuickBarActions } from './constants'
-import {
-  QuickButtonConfig,
-  AddButtonConfigAction,
-  UpdateButtonConfigAction,
-} from './interfaces'
+import { Mission, AddMissionAction, UpdateMissionAction } from './interfaces'
 
-export const addButtonConfig = (
-  config: QuickButtonConfig
-): AddButtonConfigAction => {
+export const addMission = (mission: Mission): AddMissionAction => {
   /**
    * TODO:
-   * Get unique record id for the quick button config from BE
-   * and save it into buttonConfig.
+   * Get unique record id for the mission from BE
+   * and save it into mission state.
    */
-  const configId = Date.now().toString(32) // FIXME: Replace with async API call
+  const missionId = Date.now().toString(32) // FIXME: Replace with async API call
   const payload = {
-    ...config,
-    id: configId,
+    ...mission,
+    id: missionId,
   }
 
   return {
-    type: QuickBarActions.AddButtonConfig,
+    type: QuickBarActions.AddMission,
     payload,
   }
 }
 
-export const updateButtonConfig = (
-  config: QuickButtonConfig
-): UpdateButtonConfigAction => {
+export const updateMission = (mission: Mission): UpdateMissionAction => {
   return {
-    type: QuickBarActions.UpdateButtonConfig,
-    payload: config,
+    type: QuickBarActions.UpdateMission,
+    payload: mission,
   }
 }

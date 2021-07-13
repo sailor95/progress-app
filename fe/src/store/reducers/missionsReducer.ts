@@ -1,10 +1,13 @@
 import { produce } from 'immer'
 
-import { QuickBarActions } from './constants'
-import { QuickBarState, IQuickBarActions } from './interfaces'
+import { QuickBarActions } from '@components/main/QuickBar/constants'
+import {
+  MissionsState,
+  IQuickBarActions,
+} from '@components/main/QuickBar/interfaces'
 
-const initState: QuickBarState = {
-  buttonConfigs: {},
+const initState: MissionsState = {
+  missions: {},
   order: [],
   hotkeySet: {},
 }
@@ -13,11 +16,11 @@ const reducer = produce((draft, action: IQuickBarActions) => {
   const { type, payload } = action
 
   switch (type) {
-    case QuickBarActions.AddButtonConfig: {
+    case QuickBarActions.AddMission: {
       const { id, hotkey } = payload
 
-      draft.buttonConfigs = {
-        ...draft.buttonConfigs,
+      draft.missions = {
+        ...draft.missions,
         ...(payload.id && { [payload.id as string]: payload }),
       }
       draft.order.push(id as string)
@@ -26,18 +29,18 @@ const reducer = produce((draft, action: IQuickBarActions) => {
       break
     }
 
-    case QuickBarActions.UpdateButtonConfig: {
+    case QuickBarActions.UpdateMission: {
       const { id, hotkey } = payload
-      const prevHotkey = draft.buttonConfigs[id as string].hotkey
+      const prevHotkey = draft.missions[id as string].hotkey
 
-      if (draft.buttonConfigs[id as string]) {
+      if (draft.missions[id as string]) {
         // Update hotkey set
         if (prevHotkey !== hotkey) {
           delete draft.hotkeySet[prevHotkey as string]
           draft.hotkeySet[hotkey as string] = hotkey as string
         }
 
-        draft.buttonConfigs[id as string] = payload
+        draft.missions[id as string] = payload
       }
       break
     }

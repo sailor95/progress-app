@@ -1,5 +1,5 @@
-import { QuickBarState } from '@components/main/QuickBar/interfaces'
+import { MissionsState } from '@components/main/QuickBar/interfaces'
 
 export interface StoreState {
-  quickBar: QuickBarState
+  missions: MissionsState
 }

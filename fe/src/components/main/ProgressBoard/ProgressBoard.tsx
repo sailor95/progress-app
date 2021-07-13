@@ -52,6 +52,8 @@ const MOCK_PROGRESS_LIST: ProgressRecord[] = [
 ]
 
 const ProgressBoard = () => {
+  // TODO: Get the progressList from Redux store
+
   return (
     <>
       <div className={styles.container}>
