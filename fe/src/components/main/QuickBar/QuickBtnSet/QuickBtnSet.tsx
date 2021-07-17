@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 
 import HotkeysHoc from '@components/hoc/HotkeysHoc'
 import { myConsole } from '@utils/dev'
-import { useOwnButtonConfig } from '@hooks/index'
+import { useOwnMission } from '@hooks/index'
 import HotkeyHint from './HotkeyHint'
 import QuickBtn from './QuickBtn'
 import BtnDialog from './BtnDialog'
-import { addButtonConfig, updateButtonConfig } from '../actions'
-import { QuickButtonConfig } from '../interfaces'
+import { addMission, updateMission } from '../actions'
+import { Mission } from '../interfaces'
 
 import styles from './styles.module.scss'
 
@@ -20,7 +20,7 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
   const [showDialog, setShowDialog] = useState(false)
   const [showClicked, setShowClicked] = useState(false)
 
-  const ownConfig = useOwnButtonConfig(index)
+  const ownMission = useOwnMission(index)
 
   const dispatch = useDispatch()
 
@@ -35,17 +35,17 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
     }, 100)
   }
 
-  const handleSaveButtonConfig = (config: QuickButtonConfig) => {
-    // TODO: Fire api to save QuickButtonConfig if all data valid
-    myConsole.api(`Save data:`, index, config)
-    dispatch(addButtonConfig(config)) // FIXME: Dispatch this action after api succeeded
+  const handleSaveMission = (mission: Mission) => {
+    // TODO: Fire api to save Mission if all data valid
+    myConsole.api(`Save data:`, index, mission)
+    dispatch(addMission(mission)) // FIXME: Dispatch this action after api succeeded
     setShowDialog(false)
   }
 
-  const handleUpdateButtonConfig = (config: QuickButtonConfig) => {
-    // TODO: Fire api to update QuickButtonConfig if all data valid
-    myConsole.api(`Update data:`, index, config)
-    dispatch(updateButtonConfig(config)) // FIXME: Dispatch this action after api succeeded
+  const handleUpdateMission = (mission: Mission) => {
+    // TODO: Fire api to update Mission if all data valid
+    myConsole.api(`Update data:`, index, mission)
+    dispatch(updateMission(mission)) // FIXME: Dispatch this action after api succeeded
     setShowDialog(false)
   }
 
@@ -61,26 +61,26 @@ const QuickBtnSet: FC<QuickBtnSetProp> = ({ index }) => {
 
   const handleAddProgress = () => {
     // TODO: Fire api to add progress
-    myConsole.api('Add progress of', index, ownConfig?.name)
+    myConsole.api('Add progress of', index, ownMission?.name)
   }
 
   return (
-    <HotkeysHoc keyName={ownConfig?.hotkey} onKeyDown={onKeyDown}>
+    <HotkeysHoc keyName={ownMission?.hotkey} onKeyDown={onKeyDown}>
       <div className={styles.container}>
-        <HotkeyHint name={ownConfig?.hotkey} clicked={showClicked} />
+        <HotkeyHint name={ownMission?.hotkey} clicked={showClicked} />
 
         <QuickBtn
-          config={ownConfig}
+          mission={ownMission}
           showDialog={handleShowDialog}
           onEdit={handleShowDialog}
           onAddProgress={handleAddProgress}
         />
 
         <BtnDialog
-          config={ownConfig}
+          mission={ownMission}
           open={showDialog}
-          onSave={handleSaveButtonConfig}
-          onUpdate={handleUpdateButtonConfig}
+          onSave={handleSaveMission}
+          onUpdate={handleUpdateMission}
           onClose={handleCloseDialog}
         />
       </div>

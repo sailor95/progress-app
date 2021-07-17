@@ -1,2 +1,2 @@
-import useOwnButtonConfig from './useOwnButtonConfig'
-export { useOwnButtonConfig }
+import useOwnMission from './useOwnMission'
+export { useOwnMission }

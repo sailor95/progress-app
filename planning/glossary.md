@@ -12,5 +12,6 @@ Separate by UI & Functional.
 
 ## Functional
 
-- `Quick Button Config`: config of a `Quick Button`
-- `Record`: base data structure of a progress record
+- `Mission`: Mission is the interface of each Progress Record, it also consist the display information needed by `QuickBar`'s `Quick Button`
+- `Progress Record`: Base data structure of a progress
+- (Deprecated: Absorbed by `Mission`) ~~`Quick Button Config`: Config of a `Quick Button`~~

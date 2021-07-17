@@ -1,6 +1,6 @@
 export enum QuickBarActions {
-  AddButtonConfig = 'QUICK_BAR/ADD_BUTTON_CONFIG',
-  UpdateButtonConfig = 'QUICK_BAR/UPDATE_BUTTON_CONFIG',
+  AddMission = 'QUICK_BAR/ADD_MISSION',
+  UpdateMission = 'QUICK_BAR/UPDATE_MISSION',
 }
 
 export const MAX_COMBO_KEY_COUNT = 2

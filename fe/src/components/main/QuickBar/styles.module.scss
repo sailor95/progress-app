@@ -3,9 +3,7 @@
 .container {
   @include flex-all-center;
   position: relative;
-  height: 25vh;
-  min-height: 50px;
-  min-height: 200px;
+  margin-top: 30px;
 }
 
 .quick_buttons {

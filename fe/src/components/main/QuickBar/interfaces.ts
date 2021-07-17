@@ -1,6 +1,6 @@
 import { QuickBarActions } from './constants'
 
-export interface QuickButtonConfig {
+export interface Mission {
   id?: string // TODO: given by BE
   name?: string
   hotkey?: string
@@ -8,9 +8,9 @@ export interface QuickButtonConfig {
 }
 
 // Redux related
-export interface QuickBarState {
-  buttonConfigs: {
-    [configId: string]: QuickButtonConfig
+export interface MissionsState {
+  missions: {
+    [missionId: string]: Mission
   }
   order: string[]
   hotkeySet: {
@@ -18,14 +18,14 @@ export interface QuickBarState {
   }
 }
 
-export type IQuickBarActions = AddButtonConfigAction | UpdateButtonConfigAction
+export type IQuickBarActions = AddMissionAction | UpdateMissionAction
 
-export interface AddButtonConfigAction {
-  type: QuickBarActions.AddButtonConfig
-  payload: QuickButtonConfig
+export interface AddMissionAction {
+  type: QuickBarActions.AddMission
+  payload: Mission
 }
 
-export interface UpdateButtonConfigAction {
-  type: QuickBarActions.UpdateButtonConfig
-  payload: QuickButtonConfig
+export interface UpdateMissionAction {
+  type: QuickBarActions.UpdateMission
+  payload: Mission
 }

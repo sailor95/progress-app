@@ -18,16 +18,16 @@ import { TwitterPicker, ColorResult } from 'react-color'
 
 import { useStoreState } from '@store/index'
 import { hotkeyHelper } from '@utils/keyboard'
-import { QuickButtonConfig } from '../../interfaces'
+import { Mission } from '../../interfaces'
 import { MAX_COMBO_KEY_COUNT } from '../../constants'
 
 import styles from './styles.module.scss'
 
 interface BtnDialogProps {
-  config?: QuickButtonConfig
+  mission?: Mission
   open: boolean
-  onSave: (data: QuickButtonConfig) => void
-  onUpdate: (data: QuickButtonConfig) => void
+  onSave: (data: Mission) => void
+  onUpdate: (data: Mission) => void
   onClose: () => void
 }
 
@@ -38,18 +38,18 @@ type FormValues = {
 }
 
 const BtnDialog: FC<BtnDialogProps> = ({
-  config,
+  mission,
   open,
   onSave,
   onUpdate,
   onClose,
 }) => {
-  const storeHotkeySet = useStoreState((state) => state.quickBar.hotkeySet)
+  const storeHotkeySet = useStoreState((state) => state.missions.hotkeySet)
   const [showColorPicker, setShowColorPicker] = useState(false)
 
   const hotKeyStack = useRef<string[]>([])
 
-  const isEditMode = useMemo(() => !!config?.id, [config?.id])
+  const isEditMode = useMemo(() => !!mission?.id, [mission?.id])
 
   const { handleSubmit, control, watch, setValue, setError, clearErrors } =
     useForm<FormValues>()
@@ -64,7 +64,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
     setShowColorPicker(false)
 
     if (isEditMode) {
-      onUpdate({ ...data, id: config?.id })
+      onUpdate({ ...data, id: mission?.id })
     } else {
       onSave(data)
     }
@@ -75,9 +75,9 @@ const BtnDialog: FC<BtnDialogProps> = ({
   }
 
   const validateDuplicateHotkey = (key: string) => {
-    // It's okay to edit a QuickButtonConfig with the same hotkey
-    if (isEditMode && config?.hotkey) {
-      if (key === config.hotkey) {
+    // It's okay to edit a Mission with the same hotkey
+    if (isEditMode && mission?.hotkey) {
+      if (key === mission.hotkey) {
         return true
       }
     }
@@ -188,7 +188,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
             <Controller
               name="name"
               control={control}
-              defaultValue={config?.name || ''}
+              defaultValue={mission?.name || ''}
               rules={{ required: 'Name is required.' }}
               render={({
                 field: { onChange, value },
@@ -215,7 +215,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
             <Controller
               name="hotkey"
               control={control}
-              defaultValue={config?.hotkey || ''}
+              defaultValue={mission?.hotkey || ''}
               rules={{
                 validate: {
                   notRepeat: validateDuplicateHotkey,
@@ -249,7 +249,7 @@ const BtnDialog: FC<BtnDialogProps> = ({
             <Controller
               name="color"
               control={control}
-              defaultValue={config?.color || '#fff'}
+              defaultValue={mission?.color || '#fff'}
               render={({ field: { onChange, value } }) => (
                 <>
                   <InputLabel classes={{ root: styles.input_label }}>
@@ -262,7 +262,9 @@ const BtnDialog: FC<BtnDialogProps> = ({
                     >
                       <div
                         className={styles.picker_block_inner}
-                        style={{ backgroundColor: watchColor || config?.color }}
+                        style={{
+                          backgroundColor: watchColor || mission?.color,
+                        }}
                       />
                     </div>
                     {showColorPicker && (

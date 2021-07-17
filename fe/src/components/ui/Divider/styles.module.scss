@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%vw;
+  margin: 30px auto;
+}
+
+.divider {
+  border-bottom: 1px solid var(--gray-2);
+  width: 80%;
+}

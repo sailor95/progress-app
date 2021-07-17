@@ -3,6 +3,13 @@
 .container {
   @include flex-all-center;
   position: relative;
-  height: 35vh;
-  background-color: cornflowerblue;
+  // background-color: cornflowerblue; // FIXME: Remove after phase 0
+}
+
+.board {
+  @include flex-all-center;
+  min-height: 300px;
+  width: 450px;
+  border-radius: 7px;
+  background-color: var(--gray-1);
 }

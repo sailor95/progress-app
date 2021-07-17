@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import quickBarReducer from '@components/main/QuickBar/reducer'
+import missionsReducer from '@store/reducers/missionsReducer'
 
 const rootReducer = combineReducers({
-  quickBar: quickBarReducer,
+  missions: missionsReducer,
 })
 
 export default rootReducer

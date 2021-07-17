@@ -2,12 +2,12 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-const MissionBoard = () => {
+const Divider = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.board}>Board</div>
+      <div className={styles.divider} />
     </div>
   )
 }
 
-export default MissionBoard
+export default Divider

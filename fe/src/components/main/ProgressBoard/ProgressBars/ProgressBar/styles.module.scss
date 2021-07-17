@@ -1,0 +1,36 @@
+@import '@utils/styles/mixins.module.scss';
+
+$height: 40px;
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  @include flex-all-center;
+  margin-right: 1rem;
+  width: $height;
+  height: $height;
+  border-radius: 7px;
+  box-shadow: 2px 2px 3px 0px rgba(var(--black), 0.5); // TODO: Need to tune this UI effect
+  color: var(--white);
+}
+
+.cubes {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 5px;
+  height: $height;
+  border: 1px solid var(--gray-2);
+  border-radius: 7px;
+  background-color: var(--white);
+
+  .cube {
+    margin-right: 5px;
+    width: 15px;
+    height: 80%;
+    border-radius: 4px;
+  }
+}
